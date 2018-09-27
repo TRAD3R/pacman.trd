@@ -1,3 +1,9 @@
+/**
+ * Energy tablet
+ * @param x     - position X
+ * @param y     - position Y
+ * @param powerUp -
+ */
 export default {
   x: 110,
   y: 310,

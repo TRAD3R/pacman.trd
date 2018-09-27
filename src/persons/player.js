@@ -1,3 +1,12 @@
+/**
+ * Pacman assets
+ * @param x     - start position X
+ * @param y     - start position Y
+ * @param pacX  - image start position X
+ * @param pacY  - image start position Y
+ * @param size  - image size
+ * @param speed - speed
+ */
 export default {
   x: 10,
   y: 30,
