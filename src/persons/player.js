@@ -13,5 +13,5 @@ export default {
   pacX: 320,
   pacY: 0,
   size: 32,
-  speed: 5
+  speed: 5,
 }

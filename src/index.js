@@ -3,6 +3,7 @@ import player from "./persons/player";
 import powerdot from "./persons/powerdot";
 import render from "./lib/render";
 import move from "./lib/move";
+import functions from "./lib/functions";
 
 const canvas = document.createElement("canvas");
 const context = canvas.getContext('2d');
@@ -13,7 +14,6 @@ image.onload = () => {
   window.addEventListener('resize', resizeCanvas, false);
   resizeCanvas();
 };
-
 
 const enemy = new Enemy();
 const dataLocal = localStorage.getItem("packman");
