@@ -17,7 +17,7 @@ image.onload = () => {
 
 const enemy = new Enemy();
 const dataLocal = localStorage.getItem("packman");
-const data = dataLocal ? JSON.parse(dataLocal) : {pscore: 0, escore: 0};
+let data = dataLocal ? JSON.parse(dataLocal) : {pscore: 0, escore: 0};
 
 // Catch key clicks
 const keyClick = {};
@@ -31,7 +31,7 @@ document.addEventListener('keyup', ({keyCode}) => delete keyClick[keyCode]);
 const resizeCanvas = () => {
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
-  render(context, canvas, player, enemy, powerdot, data, image);
+  data = render(context, canvas, player, enemy, powerdot, data, image);
   requestAnimationFrame(resizeCanvas);  // заново отрисовывает объект после каждого шага
 };
 

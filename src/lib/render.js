@@ -12,12 +12,15 @@ export default (context, canvas, player, enemy, powerdot, data, image) => {
   context.fillStyle = 'white';
   context.fillText(`Человек ${data.pscore} : ${data.escore} Сопливчик`, 2, 20);
 
+
+
   if(player.x + player.size >= powerdot.x && player.y + player.size >= powerdot.y
       && player.x <= powerdot.x + powerdot.size && player.y <= powerdot.y + powerdot.size){
     powerdot.powerUp = false;
     powerdot.pCountDown = 500;
     powerdot.enemyNum = enemy.pacX;
     enemy.pacX = 384;
+    powerdot.enemyEat = true;
   }
 
   if(!powerdot.powerUp){
@@ -26,10 +29,33 @@ export default (context, canvas, player, enemy, powerdot, data, image) => {
     powerdot.powerUp = true;
   }
 
+  if(powerdot.enemyEat){
+    powerdot.pCountDown--;
+    if(powerdot.pCountDown <= 0){
+      powerdot.enemyEat = false;
+      enemy.pacX = powerdot.enemyNum;
+    }
+  }
+
+  if(player.x + player.size >= enemy.x && player.y + player.size >= enemy.y
+    && player.x <= enemy.x + enemy.size && player.y <= enemy.y + enemy.size){
+    if(powerdot.enemyEat){
+      enemy.x = functions.mathRandom(canvas.width);
+      enemy.y = functions.mathRandom(canvas.height);
+      data.pscore++;
+      powerdot.enemyEat = false;
+      issetEnemy = false;
+    }else{
+      player.x = 10;
+      player.y = 30;
+      data.escore++;
+    }
+
+  }
+
   if(!issetEnemy){
     enemy.pacX = functions.mathRandom(5) * 64;
     enemy.speed = functions.mathRandom(5);
-    console.log(enemy);
     enemy.x = functions.mathRandom(canvas.width);
     enemy.y = functions.mathRandom(canvas.height);
     issetEnemy = true;
@@ -58,8 +84,13 @@ export default (context, canvas, player, enemy, powerdot, data, image) => {
   }
 
   enemy.moving--;
-  enemy.x += enemy.dirX;
-  enemy.y += enemy.dirY;
+  if(powerdot.enemyEat){
+    enemy.x -= enemy.dirX;
+    enemy.y -= enemy.dirY;
+  }else{
+    enemy.x += enemy.dirX;
+    enemy.y += enemy.dirY;
+  }
 
   enemy.pacY = enemy.pacY === 0 ? 32 : 0;
 
@@ -67,4 +98,6 @@ export default (context, canvas, player, enemy, powerdot, data, image) => {
   // Persons
   context.drawImage(image, player.pacX, player.pacY, config.image.sizeX, config.image.sizeY, player.x, player.y, player.size, player.size);
   context.drawImage(image, enemy.pacX, enemy.pacY, config.image.sizeX, config.image.sizeY, enemy.x, enemy.y, enemy.size, enemy.size);
+
+  return data;
 }
